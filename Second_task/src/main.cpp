@@ -7,7 +7,7 @@
 
 int main() {
     financial::OptionParameters optParams{100, 100, 1, 0.05, 0.1, finutils::OptionType::Call};
-    financial::BinominalCalculation calcOpt(10);
+    financial::BinominalCalculation calcOpt(1000);
 
     auto result = calcOpt.calcPrice(optParams);
     std::cout << "Best price: " << result << "\n" << "For option: \n" << optParams << std::endl;

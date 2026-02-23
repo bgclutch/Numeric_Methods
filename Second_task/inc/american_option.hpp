@@ -23,7 +23,7 @@ class BinominalCalculation {
             optionPrices_[i] = calcFinalPrice(optionParams, tmp);
         }
 
-        for (size_t curStep = calcSteps_ - 1; curStep --> 0;) {
+        for (size_t curStep = calcSteps_; curStep --> 0;) {
             for (size_t i = 0; i <= curStep; ++i) {
                 auto holdValue = calcHoldPrice(americanParams, optionPrices_[i], optionPrices_[i + 1]);
 
