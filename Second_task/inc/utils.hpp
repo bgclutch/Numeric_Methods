@@ -3,21 +3,25 @@
 #include <iostream>
 
 namespace finutils {
-const int OPTIONS_AMOUNT = 1000;
+static const int OPTIONS_AMOUNT = 1;
 
 enum class OptionType {
     Call,
     Put
 };
 
-void dataGenerator() {
-
-
+inline std::ostream& operator<<(std::ostream& outStream, const finutils::OptionType type) {
+    std::string res = (type == finutils::OptionType::Call) ? "Call" : "Put";
+    outStream << res;
+    return outStream;
 }
 
-void getOptionParameters() {
-
-}
+// void dataGenerator() {
 
 
-} // namespace financial
+// }
+
+// void getOptionParameters() {
+
+// }
+} // namespace finutils

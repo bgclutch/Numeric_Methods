@@ -9,22 +9,22 @@ namespace financial {
 class BinominalCalculation {
  private:
     std::vector<double> optionPrices_;
-    int calcSteps_;
+    size_t calcSteps_;
  public:
-    explicit BinominalCalculation(int calcSteps) : calcSteps_(calcSteps) {
+    explicit BinominalCalculation(size_t calcSteps) : calcSteps_(calcSteps) {
         optionPrices_.resize(calcSteps_ + 1);
     }
 
     double calcPrice(const OptionParameters& optionParams) {
         AmericanParameters americanParams(optionParams, calcSteps_);
 
-        for (auto i = 0; i <= calcSteps_; ++i) {
+        for (size_t i = 0; i <= calcSteps_; ++i) {
             auto tmp = calcCurPrice(optionParams, americanParams, i, calcSteps_);
             optionPrices_[i] = calcFinalPrice(optionParams, tmp);
         }
 
-        for (auto curStep = calcSteps_ - 1; curStep >= 0; --curStep) {
-            for (auto i = 0; i <= curStep; ++i) {
+        for (size_t curStep = calcSteps_ - 1; curStep --> 0;) {
+            for (size_t i = 0; i <= curStep; ++i) {
                 auto holdValue = calcHoldPrice(americanParams, optionPrices_[i], optionPrices_[i + 1]);
 
                 auto execPrice = calcCurPrice(optionParams, americanParams, i, curStep);
@@ -32,9 +32,10 @@ class BinominalCalculation {
                 optionPrices_[i] = std::max(execValue, holdValue);
             }
         }
+        return optionPrices_[0];
     }
 
- public:
+ private:
     double calcFinalPrice(const OptionParameters& optionParams, const double& payoff) {
         auto tmp = payoff - optionParams.strikePrice_;
         tmp = (optionParams.optionType_ == finutils::OptionType::Call) ? tmp : -tmp;
@@ -51,4 +52,4 @@ class BinominalCalculation {
     }
 };
 
-} // namespace american
+} // namespace financial

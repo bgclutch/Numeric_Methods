@@ -2,6 +2,8 @@
 #include "utils.hpp"
 #include <cmath>
 #include <algorithm>
+#include <iostream>
+#include <string>
 
 namespace financial {
 struct OptionParameters {
@@ -10,7 +12,6 @@ struct OptionParameters {
     double timeToMaturity_;
     double riskFreeRate_;
     double volatility_;
-    bool   isCall;
     finutils::OptionType optionType_;
 };
 
@@ -29,4 +30,25 @@ struct AmericanParameters {
         discountFactor(std::exp(-params.riskFreeRate_ * timeStep)) {}
 };
 
-} // namespace utils
+inline std::ostream& operator<<(std::ostream& outStream, const OptionParameters& params) {
+    outStream << "Option type:      " << params.optionType_     << "\n"
+              << "Spot price:       " << params.spotPrice_      << "\n"
+              << "Strike price:     " << params.strikePrice_    << "\n"
+              << "Time to maturity: " << params.timeToMaturity_ << "\n"
+              << "Risk free rating: " << params.riskFreeRate_   << "\n"
+              << "Volatility:       " << params.volatility_;
+
+    return outStream;
+}
+
+inline std::ostream& operator<<(std::ostream& outStream, const AmericanParameters params) {
+    outStream << "Time step:       " << params.timeStep   << "\n"
+              << "Up factor:       " << params.upFactor   << "\n"
+              << "Down factor:     " << params.downFactor << "\n"
+              << "Risk factor:     " << params.riskFactor << "\n"
+              << "Discount factor: " << params.discountFactor;
+
+    return outStream;
+}
+
+} // namespace financial
