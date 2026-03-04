@@ -2,11 +2,13 @@ cmake_minimum_required(VERSION 3.13)
 set(CMAKE_CXX_STANDARD 23)
 
 project(monte_carlo)
+find_package(OpenMP REQUIRED)
 add_executable(monte_carlo)
 
 option(ENABLE_ASAN OFF)
 
 target_compile_features(monte_carlo PUBLIC cxx_std_23)
+target_link_libraries(monte_carlo PRIVATE OpenMP::OpenMP_CXX)
 
 target_include_directories(monte_carlo PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/inc
@@ -17,6 +19,7 @@ target_sources(monte_carlo PRIVATE
 )
 
 target_compile_options(monte_carlo PRIVATE
+    -fopenmp
 $<$<CONFIG:Debug>:
     -Wall
     -Wextra
