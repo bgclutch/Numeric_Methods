@@ -1,0 +1,3 @@
+/home/bog/Desktop/projects/Numerical_Methods_course/Third_task/build/CMakeFiles/crit_error.dir
+/home/bog/Desktop/projects/Numerical_Methods_course/Third_task/build/CMakeFiles/edit_cache.dir
+/home/bog/Desktop/projects/Numerical_Methods_course/Third_task/build/CMakeFiles/rebuild_cache.dir
