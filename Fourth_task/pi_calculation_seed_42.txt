@@ -1,15 +1,15 @@
 [float32 with discard() Block-Splitting]
-  Calculated Pi: 3.141567945480347
+  Calculated Pi: 3.141455888748169
   Reference Pi:  3.141592653589793
-  Abs Error:     2.470810944643631e-05
+  Abs Error:     1.367648416241707e-04
   Std Deviation: 1.642183367736324e-04
   3-Sigma Limit: 4.926550103208972e-04
   [SUCCESS] Error IS in 3 SD. Generator is OK.
 
 [float64 with discard() Block-Splitting]
-  Calculated Pi: 3.141544800000000
+  Calculated Pi: 3.141432440000000
   Reference Pi:  3.141592653589793
-  Abs Error:     4.785358979297882e-05
+  Abs Error:     1.602135897931234e-04
   Std Deviation: 1.642183367736324e-04
   3-Sigma Limit: 4.926550103208972e-04
   [SUCCESS] Error IS in 3 SD. Generator is OK.
