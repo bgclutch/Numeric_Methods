@@ -6,7 +6,7 @@
 
 int main() {
     std::ofstream csv("precision_results.csv");
-    csv << "Number,Size,Type,Mean,StdDev,TrueSampleVar,ErrFast,ErrTwoPass,ErrSinglePass\n";
+    csv << "Number,Size,Type,Mean,StdDev,TrueSampleVar,ErrFast,ErrTwoPass,ErrSinglePass,ErrTrue\n";
 
     std::vector<precision::TestCase> data = {
         {1000, 1.0, 1.0},

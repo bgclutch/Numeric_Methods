@@ -99,6 +99,7 @@ void runTestCases(const std::vector<TestCase>& cases, std::ofstream& csv, const 
         std::normal_distribution<double> dist(c.mean, c.stdDev);
 
         std::vector<double> dataDbl(c.count);
+
         for (auto& x : dataDbl) {
             x = dist(gen);
         }
@@ -109,7 +110,8 @@ void runTestCases(const std::vector<TestCase>& cases, std::ofstream& csv, const 
             dataTarget.push_back(static_cast<ElemType>(val));
         }
 
-        double trueSampleVar = static_cast<float_128>(Solver<double>::calcReference(dataDbl));
+        float_128 theoryVar = c.stdDev * c.stdDev;
+        float_128 trueSampleVar = static_cast<float_128>(Solver<double>::calcReference(dataDbl));
 
         ElemType resFast = Solver<ElemType>::fast(dataTarget);
         ElemType resTwo  = Solver<ElemType>::twoPass(dataTarget);
@@ -118,6 +120,7 @@ void runTestCases(const std::vector<TestCase>& cases, std::ofstream& csv, const 
         double errFast = std::abs((static_cast<double>(resFast) - trueSampleVar) / trueSampleVar);
         double errTwo  = std::abs((static_cast<double>(resTwo)  - trueSampleVar) / trueSampleVar);
         double errOne  = std::abs((static_cast<double>(resOne)  - trueSampleVar) / trueSampleVar);
+        float_128 errTrue = std::abs((trueSampleVar - theoryVar) / theoryVar);
 
         csv << i + 1 << ","
             << c.count << ","
@@ -127,7 +130,8 @@ void runTestCases(const std::vector<TestCase>& cases, std::ofstream& csv, const 
             << trueSampleVar << ","
             << errFast << ","
             << errTwo << ","
-            << errOne << "\n";
+            << errOne << ","
+            << errTrue << "\n";
     }
     csv << "\n";
 }

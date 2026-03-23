@@ -15,9 +15,10 @@ plt.subplots_adjust(hspace=0.4)
 
 # Крах алгоритма Naive на float32
 ax1.set_yscale('log')
-ax1.plot(x_axis, f32_df['ErrFast'], 'ro-', label='Naive (Fast)', linewidth=2)
-ax1.plot(x_axis, f32_df['ErrTwoPass'], 'bo-', label='Two-Pass (Stable)', alpha=0.6)
-ax1.plot(x_axis, f32_df['ErrSinglePass'], 'go-', label='Welford (Single-Pass)', linewidth=2)
+ax1.plot(x_axis, f32_df['ErrFast'], 'r-', label='Naive (Fast)', linewidth=2)
+ax1.plot(x_axis, f32_df['ErrTwoPass'], 'b-', label='Two-Pass (Stable)', alpha=0.6)
+ax1.plot(x_axis, f32_df['ErrSinglePass'], 'g-', label='Welford (Single-Pass)', linewidth=2)
+ax1.plot(x_axis, f32_df['ErrTrue'], 'k--', label='Statistical Error (Sample vs Theory)', alpha=0.8)
 
 # Добавляем линию порога 100% ошибки
 ax1.axhline(y=1.0, color='black', linestyle='--', alpha=0.5)
@@ -32,7 +33,8 @@ ax1.legend()
 # Сравнение точности float32 vs float64 для метода Naive
 ax2.set_yscale('log')
 ax2.plot(x_axis, f32_df['ErrFast'], 'r--', label='Naive @ float32', linewidth=2)
-ax2.plot(x_axis, f64_df['ErrFast'], 'b-', label='Naive @ float64 (Double)', linewidth=2, marker='s')
+ax2.plot(x_axis, f64_df['ErrFast'], 'b-', label='Naive @ float64 (Double)', linewidth=2)
+ax2.plot(x_axis, f32_df['ErrTrue'], 'k--', label='Statistical Error (Sample vs Theory)', alpha=0.8)
 
 ax2.axhline(y=1.0, color='black', linestyle='--', alpha=0.5)
 ax2.text(1, 1.2, '100% Relative Error (Total Failure)', color='black', fontweight='bold')
@@ -45,9 +47,10 @@ ax2.legend()
 
 # float64
 ax3.set_yscale('log')
-ax3.plot(x_axis, f64_df['ErrFast'], 'ro-', label='Naive (Fast)', linewidth=2)
-ax3.plot(x_axis, f64_df['ErrTwoPass'], 'bo-', label='Two-Pass (Stable)', alpha=0.7)
-ax3.plot(x_axis, f64_df['ErrSinglePass'], 'go-', label='Welford (Single-Pass)', linewidth=2)
+ax3.plot(x_axis, f64_df['ErrFast'], 'r-', label='Naive (Fast)', linewidth=2)
+ax3.plot(x_axis, f64_df['ErrTwoPass'], 'b-', label='Two-Pass (Stable)', alpha=0.7)
+ax3.plot(x_axis, f64_df['ErrSinglePass'], 'g-', label='Welford (Single-Pass)', linewidth=2)
+ax3.plot(x_axis, f32_df['ErrTrue'], 'k--', label='Statistical Error (Sample vs Theory)', alpha=0.8)
 
 ax3.axhline(y=1.0, color='black', linestyle='--', alpha=0.5)
 ax3.text(1, 1.2, '100% Relative Error (Total Failure)', color='black', fontweight='bold')
