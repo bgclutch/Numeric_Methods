@@ -23,7 +23,6 @@ int main() {
             badSample[i] = badGen.next();
         }
 
-
         csv << "MT19937," << run << ","
             << rng::chiSquaredTest(mtSample) << ","
             << rng::ksTest(mtSample) << ","
