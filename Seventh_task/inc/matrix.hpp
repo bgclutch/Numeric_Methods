@@ -35,8 +35,8 @@
 
 namespace matrix {
 static const int SEED   = 42;
-static const int MIN_POW = 10;
-static const int MAX_POW = 10;
+static const int MIN_POW = 8;
+static const int MAX_POW = 8;
 static const int SRC_NUM = 3;
 
 template <typename ElemType>
@@ -205,8 +205,8 @@ class MatrixSet {
                             VEC_TYPE vC13 = VEC_LOAD(&result[(i + 1) * secondCols + j + VEC_WIDTH * 3]);
 
                             for (size_t k = 0; k < k_end; ++k) {
-                                VEC_TYPE vA0 = VEC_SET1(firstSrc[(i - 1) * firstCols + k]);
-                                VEC_TYPE vA1 = VEC_SET1(firstSrc[i * firstCols + k]);
+                                VEC_TYPE vA0 = VEC_SET1(firstSrc[i * firstCols + k]);
+                                VEC_TYPE vA1 = VEC_SET1(firstSrc[(i + 1) * firstCols + k]);
 
                                 VEC_TYPE vB0 = VEC_LOAD(&secondSrc[k * secondCols + j + VEC_WIDTH * 0]);
                                 VEC_TYPE vB1 = VEC_LOAD(&secondSrc[k * secondCols + j + VEC_WIDTH * 1]);
@@ -226,9 +226,9 @@ class MatrixSet {
                             }
 
                             VEC_STORE(&result[i * secondCols + j + VEC_WIDTH * 0], vC0);
-                            VEC_STORE(&result[i * secondCols + j + VEC_WIDTH * 0], vC1);
-                            VEC_STORE(&result[i * secondCols + j + VEC_WIDTH * 0], vC2);
-                            VEC_STORE(&result[i * secondCols + j + VEC_WIDTH * 0], vC3);
+                            VEC_STORE(&result[i * secondCols + j + VEC_WIDTH * 1], vC1);
+                            VEC_STORE(&result[i * secondCols + j + VEC_WIDTH * 2], vC2);
+                            VEC_STORE(&result[i * secondCols + j + VEC_WIDTH * 3], vC3);
                             VEC_STORE(&result[(i + 1) * secondCols + j + VEC_WIDTH * 0], vC10);
                             VEC_STORE(&result[(i + 1) * secondCols + j + VEC_WIDTH * 1], vC11);
                             VEC_STORE(&result[(i + 1) * secondCols + j + VEC_WIDTH * 2], vC12);
