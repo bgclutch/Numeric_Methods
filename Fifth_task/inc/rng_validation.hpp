@@ -5,6 +5,8 @@
 #include <numeric>
 #include <iostream>
 #include <numbers>
+#include <bit>
+#include <cstdint>
 
 namespace rng {
 /*  Q*
@@ -64,9 +66,11 @@ double autocorrelationTest(const std::vector<ElemType>& sample, size_t lag = 1) 
             num += diff * (sample[i + lag] - mean);
         }
     }
+
     return num / den;
 }
 
+#if 1
 // Q2. Upgraded Autocorrelation
 template <typename ElemType>
 double autocorrelationTestUpd(const std::vector<ElemType>& sample, size_t lag = 1) {
@@ -76,18 +80,28 @@ double autocorrelationTestUpd(const std::vector<ElemType>& sample, size_t lag = 
     size_t compsNum = sampleBitSize - lag;
     int sum = 0;
 
-    const unsigned char* tmpSample = reinterpret_cast<const unsigned char*>(sample.data());
-
     auto getBit = [&](size_t i){ // getting needed bit from i_th element in sample
         size_t index = i / elemBitSize;
         size_t indexOffset = i % elemBitSize;
 
-        return (tmpSample[index] >> indexOffset) & 1;
+        return (sample[index] >> indexOffset) & 1;
     };
 
     for (size_t i = 0; i != compsNum; ++i) {
+        #if 0
+        size_t index_i = i / elemBitSize;
+        size_t index_i_lag = (i + lag) / elemBitSize;
+
+        size_t index_i_offset = i % elemBitSize;
+        size_t index_i_lag_offset = (i + lag) % elemBitSize;
+
+        int bit_i = (sample[index_i] >> index_i_offset) & 1;
+        int bit_i_lag = (sample[index_i_lag] >> index_i_lag_offset) & 1;
+        #endif
+        #if 1
         int bit_i = getBit(i);
         int bit_i_lag = getBit(i + lag);
+        #endif
         sum += bit_i ^ bit_i_lag;
     }
 
@@ -102,8 +116,10 @@ double autocorrelationTestUpd(const std::vector<ElemType>& sample, size_t lag = 
 
     double trustInt = std::abs(2. * static_cast<double>(sum) - static_cast<double>(compsNum)) / std::sqrt(compsNum);
     double res = std::erfc(trustInt / std::numbers::sqrt2);
+    std::cerr << "sum: " << sum << "\n" << "trust interval: " << trustInt << "\n" << "result: " << res << "\n";
     return res;
 }
+#endif
 
 
 // Q2. KS-test

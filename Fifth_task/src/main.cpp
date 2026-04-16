@@ -17,21 +17,23 @@ int main() {
     for (int run = 0; run != RUNS; ++run) {
         std::vector<double> mtSample(SAMPLE_SIZE);
         std::vector<double> badSample(SAMPLE_SIZE);
+        std::vector<uint32_t> bitSample(SAMPLE_SIZE);
+
 
         for (size_t i = 0; i != SAMPLE_SIZE; ++i) {
-            mtSample[i] = dist(mtGen);
+            mtSample[i]  = dist(mtGen);
             badSample[i] = badGen.next();
+            bitSample[i] = mtGen();
         }
 
         csv << "MT19937," << run << ","
             << rng::chiSquaredTest(mtSample) << ","
             << rng::ksTest(mtSample) << ","
-            << rng::autocorrelationTestUpd(mtSample) << "\n";
+            << rng::autocorrelationTestUpd(bitSample) << "\n";
 
         csv << "LowDiscrepancy," << run << ","
             << rng::chiSquaredTest(badSample) << ","
-            << rng::ksTest(badSample) << ","
-            << rng::autocorrelationTestUpd(mtSample) << "\n";
+            << rng::ksTest(badSample) << "\n";
     }
 
     return 0;
