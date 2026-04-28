@@ -16,6 +16,38 @@ constexpr int ITERATIONS = 10000;
 constexpr int GEN_AMOUNT = 10000;
 constexpr int GEN_WARMUP = 1000;
 
+struct ResData
+{
+    double mean;
+    double stddev;
+};
+
+namespace detail
+{
+template <typename ElemType = double>
+ResData calculateStats(const std::vector<ElemType>& data)
+{
+    double sum = 0;
+
+    for (auto x : data) sum += x;
+
+    size_t size = data.size();
+    double mean = sum / size;
+
+    double varianceSum = 0;
+
+    for (auto x : data)
+    {
+        double diff = x - mean;
+        varianceSum += diff * diff;
+    }
+
+    double stddev = std::sqrt(varianceSum / (size - 1));
+
+    return ResData{mean, stddev};
+}
+}  // namespace detail
+
 template <typename Func, typename ElemType>
 void funcLatencyTest(Func&& testFunc, const std::vector<ElemType>& data, std::ostream& output = std::cerr)
 {
@@ -26,7 +58,7 @@ void funcLatencyTest(Func&& testFunc, const std::vector<ElemType>& data, std::os
     volatile ElemType zeroMask = std::bit_cast<ElemType>(ZERO);
     auto size                  = data.size();
     std::vector<ElemType> res(size);
-    uint64_t result = UINT64_MAX;
+    std::vector<double> dataVec;
 
     for (size_t i = 0; i < size; ++i)
     {
@@ -49,14 +81,14 @@ void funcLatencyTest(Func&& testFunc, const std::vector<ElemType>& data, std::os
             offset = std::bit_cast<ElemType>(bits);
         }
 
+        uint32_t aux;
+        uint64_t end = __rdtscp(&aux);
         _mm_lfence();
-        uint64_t end = __rdtsc();
-        _mm_lfence();
-        result = std::min(result, end - begin);
+        dataVec.push_back((end - begin) / GEN_AMOUNT);
     }
 
-    double cpe = static_cast<double>(result) / size;
-    output << "Latency: " << cpe << " CPE" << std::endl;
+    ResData result = detail::calculateStats(dataVec);
+    output << "Latency: " << result.mean << " CPE +-" << result.stddev << std::endl;
 }
 
 template <typename Func, typename ElemType>
@@ -64,7 +96,7 @@ void funcThroughputTest(Func&& testFunc, const std::vector<ElemType>& data, std:
 {
     auto size = data.size();
     std::vector<ElemType> res(size);
-    uint64_t result = UINT64_MAX;
+    std::vector<double> dataVec;
 
     for (size_t i = 0; i < size; ++i)
     {
@@ -83,21 +115,22 @@ void funcThroughputTest(Func&& testFunc, const std::vector<ElemType>& data, std:
             res[i] = std::forward<Func>(testFunc)(data[i]);
         }
 
+        uint32_t aux;
+        uint64_t end = __rdtscp(&aux);
         _mm_lfence();
-        uint64_t end = __rdtsc();
-        _mm_lfence();
-        result = std::min(result, end - begin);
+
+        dataVec.push_back((end - begin) / GEN_AMOUNT);
     }
 
-    double cpe = static_cast<double>(result) / size;
-    output << "Throughput: " << cpe << " CPE" << std::endl;
+    ResData result = detail::calculateStats(dataVec);
+    output << "Throughput: " << result.mean << " CPE +-" << result.stddev << std::endl;
 }
 
 template <typename RNG>
 void genLatencyTest(RNG& generator, std::ostream& output = std::cerr)
 {
-    uint64_t acc    = 0;
-    uint64_t result = UINT64_MAX;
+    uint64_t acc = 0;
+    std::vector<double> dataVec;
 
     for (int i = 0; i < GEN_WARMUP; ++i)
     {
@@ -116,15 +149,15 @@ void genLatencyTest(RNG& generator, std::ostream& output = std::cerr)
             acc ^= generator();
         }
 
-        _mm_lfence();
-        uint64_t end = __rdtsc();
+        uint32_t aux;
+        uint64_t end = __rdtscp(&aux);
         _mm_lfence();
 
-        result = std::min(result, end - begin);
+        dataVec.push_back((end - begin) / GEN_AMOUNT);
     }
 
-    double cpe = static_cast<double>(result) / GEN_AMOUNT;
-    output << "Latency: " << cpe << " CPE" << std::endl;
+    ResData result = detail::calculateStats(dataVec);
+    output << "Latency: " << result.mean << " CPE +-" << result.stddev << std::endl;
 }
 
 template <typename RNGFunc>
@@ -132,7 +165,7 @@ void genThroughputTest(std::ostream& output = std::cerr)
 {
     RNGFunc rng1(1), rng2(2), rng3(3), rng4(4);
     uint64_t acc1, acc2, acc3, acc4;
-    uint64_t result = UINT64_MAX;
+    std::vector<double> dataVec;
 
     for (int i = 0; i < GEN_WARMUP; ++i)
     {
@@ -163,15 +196,15 @@ void genThroughputTest(std::ostream& output = std::cerr)
             acc4 ^= rng4();
         }
 
-        _mm_lfence();
-        uint64_t end = __rdtsc();
+        uint32_t aux;
+        uint64_t end = __rdtscp(&aux);
         _mm_lfence();
 
-        result = std::min(result, end - begin);
+        dataVec.push_back((end - begin) / GEN_AMOUNT);
     }
 
-    double cpe = static_cast<double>(result) / (GEN_AMOUNT * 4);
-    output << "Throughput: " << cpe << " CPE" << std::endl;
+    ResData result = detail::calculateStats(dataVec);
+    output << "Throughput: " << result.mean << " CPE +-" << result.stddev << std::endl;
 }
 
 }  // namespace benchlib
