@@ -1,8 +1,6 @@
 #pragma once
 
-//#include <immintrin.h>
-#include <x86intrin.h>
-
+#include <immintrin.h>
 #include <bit>
 #include <cstdint>
 #include <fstream>
@@ -120,6 +118,33 @@ void funcThroughputTest(Func&& testFunc, const std::vector<ElemType>& data, std:
         _mm_lfence();
 
         dataVec.push_back((end - begin) / GEN_AMOUNT);
+    }
+
+    ResData result = detail::calculateStats(dataVec);
+    output << "Throughput: " << result.mean << " CPE +-" << result.stddev << std::endl;
+}
+
+template <typename Func, typename ElemType>
+void vfuncTest(Func&& testFunc, const std::vector<ElemType>& data, std::ostream& output = std::cerr) {
+    size_t size = data.size();
+    std::vector<ElemType> res(size);
+    std::vector<double> dataVec;
+
+    for (int n = 0; n != ITERATIONS; ++n) {
+        _mm_lfence();
+        uint64_t begin = __rdtsc();
+        _mm_lfence();
+
+        std::forward<Func>(testFunc)(data, res, size);
+
+        unsigned int aux;
+        uint64_t end = __rdtscp(&aux);
+        _mm_lfence();
+
+        dataVec.push_back(static_cast<double>(end - begin) / size);
+
+        volatile ElemType dummy = res[size - 1];
+        static_cast<void>(dummy);
     }
 
     ResData result = detail::calculateStats(dataVec);
