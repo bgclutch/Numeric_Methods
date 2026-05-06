@@ -8,6 +8,7 @@
 #include <iomanip>
 #include <numeric>
 #include <random>
+#include <span>
 
 #include "minstdrand.hpp"
 
@@ -109,4 +110,58 @@ void tests::piBenchmark(std::ofstream& output)
         output << "  [SUCCESS] Error IS in 3 SD. Generator is OK.\n\n";
     else
         output << "  [WARNING] Error IS NOT in 3 SD! Generator might be broken.\n\n";
+}
+
+void tests::benchmarkSingleThread(std::ofstream& output)
+{
+    const size_t N = 100'000'000;
+    std::vector<uint32_t> vecData(N);
+    std::vector<uint32_t> stdData(N);
+
+    std::minstd_rand std(42);
+    auto begin = std::chrono::high_resolution_clock::now();
+    for (size_t i = 0; i < N; ++i)
+    {
+        stdData[i] = std();
+    }
+    auto end                                  = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> durationStd = end - begin;
+
+    rng::VectorMinstd vec;
+    vec.seed(42);
+    begin = std::chrono::high_resolution_clock::now();
+    vec.generateInt(std::span{vecData.data(), N});
+    end                                       = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> durationVec = end - begin;
+
+    output << "std::minstd_rand Time: " << durationStd.count() << " s\n";
+    output << "VectorMinstd Time:     " << durationVec.count() << " s\n";
+    output << "Speedup vs std::     " << durationStd.count() / durationVec.count() << "x\n";
+}
+
+void tests::measureScaling(std::ofstream& output)
+{
+    const size_t N  = 100'000'000;
+    int maxThreads  = omp_get_max_threads();
+    double baseTime = 0.0;
+
+    output << "\nThreads | Time (s) | Speedup\n";
+    output << "----------------------------------\n";
+
+    for (int t = 1; t <= maxThreads; ++t)
+    {
+        omp_set_num_threads(t);
+        auto begin = std::chrono::high_resolution_clock::now();
+
+        tests::piBenchmark(output);
+
+        auto end        = std::chrono::high_resolution_clock::now();
+        double duration = std::chrono::duration<double>(end - begin).count();
+
+        if (t == 1) baseTime = duration;
+        double speedup = baseTime / duration;
+
+        output << std::setw(7) << t << " | " << std::setw(8) << std::fixed << std::setprecision(4) << duration << " | " << std::setw(6)
+               << speedup << "x\n";
+    }
 }

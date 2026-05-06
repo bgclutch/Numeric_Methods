@@ -3,11 +3,177 @@ Functional correctness check PASSED
 
 Parallel Pi Benchmark
 [fp32 Vectorized minstd_rand with Skip-Ahead Block-Splitting]
-  Calculated Pi: 3.141505760000000
+  Calculated Pi: 3.141505680000000
   Reference Pi:  3.141592653589793
-  Abs Error:     8.689358979330208e-05
+  Abs Error:     8.697358979325998e-05
   Std Deviation: 1.642183367736324e-04
   3-Sigma Limit: 4.926550103208972e-04
-  Time Elapsed:  0.0771 s
+  Time Elapsed:  0.0626 s
   [SUCCESS] Error IS in 3 SD. Generator is OK.
 
+std::minstd_rand Time: 0.6368 s
+VectorMinstd Time:     0.1934 s
+Speedup vs std::     3.2922x
+
+Threads | Time (s) | Speedup
+----------------------------------
+[fp32 Vectorized minstd_rand with Skip-Ahead Block-Splitting]
+  Calculated Pi: 3.141505680000000
+  Reference Pi:  3.141592653589793
+  Abs Error:     8.697358979325998e-05
+  Std Deviation: 1.642183367736324e-04
+  3-Sigma Limit: 4.926550103208972e-04
+  Time Elapsed:  0.4377 s
+  [SUCCESS] Error IS in 3 SD. Generator is OK.
+
+      1 |   0.4377 | 1.0000x
+[fp32 Vectorized minstd_rand with Skip-Ahead Block-Splitting]
+  Calculated Pi: 3.141505680000000
+  Reference Pi:  3.141592653589793
+  Abs Error:     8.697358979325998e-05
+  Std Deviation: 1.642183367736324e-04
+  3-Sigma Limit: 4.926550103208972e-04
+  Time Elapsed:  0.2277 s
+  [SUCCESS] Error IS in 3 SD. Generator is OK.
+
+      2 |   0.2277 | 1.9220x
+[fp32 Vectorized minstd_rand with Skip-Ahead Block-Splitting]
+  Calculated Pi: 3.141505680000000
+  Reference Pi:  3.141592653589793
+  Abs Error:     8.697358979325998e-05
+  Std Deviation: 1.642183367736324e-04
+  3-Sigma Limit: 4.926550103208972e-04
+  Time Elapsed:  0.1620 s
+  [SUCCESS] Error IS in 3 SD. Generator is OK.
+
+      3 |   0.1620 | 2.7024x
+[fp32 Vectorized minstd_rand with Skip-Ahead Block-Splitting]
+  Calculated Pi: 3.141505680000000
+  Reference Pi:  3.141592653589793
+  Abs Error:     8.697358979325998e-05
+  Std Deviation: 1.642183367736324e-04
+  3-Sigma Limit: 4.926550103208972e-04
+  Time Elapsed:  0.1607 s
+  [SUCCESS] Error IS in 3 SD. Generator is OK.
+
+      4 |   0.1607 | 2.7231x
+[fp32 Vectorized minstd_rand with Skip-Ahead Block-Splitting]
+  Calculated Pi: 3.141505680000000
+  Reference Pi:  3.141592653589793
+  Abs Error:     8.697358979325998e-05
+  Std Deviation: 1.642183367736324e-04
+  3-Sigma Limit: 4.926550103208972e-04
+  Time Elapsed:  0.1422 s
+  [SUCCESS] Error IS in 3 SD. Generator is OK.
+
+      5 |   0.1422 | 3.0772x
+[fp32 Vectorized minstd_rand with Skip-Ahead Block-Splitting]
+  Calculated Pi: 3.141505680000000
+  Reference Pi:  3.141592653589793
+  Abs Error:     8.697358979325998e-05
+  Std Deviation: 1.642183367736324e-04
+  3-Sigma Limit: 4.926550103208972e-04
+  Time Elapsed:  0.1407 s
+  [SUCCESS] Error IS in 3 SD. Generator is OK.
+
+      6 |   0.1408 | 3.1090x
+[fp32 Vectorized minstd_rand with Skip-Ahead Block-Splitting]
+  Calculated Pi: 3.141505680000000
+  Reference Pi:  3.141592653589793
+  Abs Error:     8.697358979325998e-05
+  Std Deviation: 1.642183367736324e-04
+  3-Sigma Limit: 4.926550103208972e-04
+  Time Elapsed:  0.1155 s
+  [SUCCESS] Error IS in 3 SD. Generator is OK.
+
+      7 |   0.1156 | 3.7875x
+[fp32 Vectorized minstd_rand with Skip-Ahead Block-Splitting]
+  Calculated Pi: 3.141505680000000
+  Reference Pi:  3.141592653589793
+  Abs Error:     8.697358979325998e-05
+  Std Deviation: 1.642183367736324e-04
+  3-Sigma Limit: 4.926550103208972e-04
+  Time Elapsed:  0.1059 s
+  [SUCCESS] Error IS in 3 SD. Generator is OK.
+
+      8 |   0.1060 | 4.1303x
+[fp32 Vectorized minstd_rand with Skip-Ahead Block-Splitting]
+  Calculated Pi: 3.141505680000000
+  Reference Pi:  3.141592653589793
+  Abs Error:     8.697358979325998e-05
+  Std Deviation: 1.642183367736324e-04
+  3-Sigma Limit: 4.926550103208972e-04
+  Time Elapsed:  0.1019 s
+  [SUCCESS] Error IS in 3 SD. Generator is OK.
+
+      9 |   0.1020 | 4.2922x
+[fp32 Vectorized minstd_rand with Skip-Ahead Block-Splitting]
+  Calculated Pi: 3.141505680000000
+  Reference Pi:  3.141592653589793
+  Abs Error:     8.697358979325998e-05
+  Std Deviation: 1.642183367736324e-04
+  3-Sigma Limit: 4.926550103208972e-04
+  Time Elapsed:  0.0917 s
+  [SUCCESS] Error IS in 3 SD. Generator is OK.
+
+     10 |   0.0917 | 4.7724x
+[fp32 Vectorized minstd_rand with Skip-Ahead Block-Splitting]
+  Calculated Pi: 3.141505680000000
+  Reference Pi:  3.141592653589793
+  Abs Error:     8.697358979325998e-05
+  Std Deviation: 1.642183367736324e-04
+  3-Sigma Limit: 4.926550103208972e-04
+  Time Elapsed:  0.0868 s
+  [SUCCESS] Error IS in 3 SD. Generator is OK.
+
+     11 |   0.0868 | 5.0427x
+[fp32 Vectorized minstd_rand with Skip-Ahead Block-Splitting]
+  Calculated Pi: 3.141505680000000
+  Reference Pi:  3.141592653589793
+  Abs Error:     8.697358979325998e-05
+  Std Deviation: 1.642183367736324e-04
+  3-Sigma Limit: 4.926550103208972e-04
+  Time Elapsed:  0.0770 s
+  [SUCCESS] Error IS in 3 SD. Generator is OK.
+
+     12 |   0.0770 | 5.6836x
+[fp32 Vectorized minstd_rand with Skip-Ahead Block-Splitting]
+  Calculated Pi: 3.141505680000000
+  Reference Pi:  3.141592653589793
+  Abs Error:     8.697358979325998e-05
+  Std Deviation: 1.642183367736324e-04
+  3-Sigma Limit: 4.926550103208972e-04
+  Time Elapsed:  0.0703 s
+  [SUCCESS] Error IS in 3 SD. Generator is OK.
+
+     13 |   0.0704 | 6.2203x
+[fp32 Vectorized minstd_rand with Skip-Ahead Block-Splitting]
+  Calculated Pi: 3.141505680000000
+  Reference Pi:  3.141592653589793
+  Abs Error:     8.697358979325998e-05
+  Std Deviation: 1.642183367736324e-04
+  3-Sigma Limit: 4.926550103208972e-04
+  Time Elapsed:  0.0706 s
+  [SUCCESS] Error IS in 3 SD. Generator is OK.
+
+     14 |   0.0706 | 6.2006x
+[fp32 Vectorized minstd_rand with Skip-Ahead Block-Splitting]
+  Calculated Pi: 3.141505680000000
+  Reference Pi:  3.141592653589793
+  Abs Error:     8.697358979325998e-05
+  Std Deviation: 1.642183367736324e-04
+  3-Sigma Limit: 4.926550103208972e-04
+  Time Elapsed:  0.0731 s
+  [SUCCESS] Error IS in 3 SD. Generator is OK.
+
+     15 |   0.0731 | 5.9870x
+[fp32 Vectorized minstd_rand with Skip-Ahead Block-Splitting]
+  Calculated Pi: 3.141505680000000
+  Reference Pi:  3.141592653589793
+  Abs Error:     8.697358979325998e-05
+  Std Deviation: 1.642183367736324e-04
+  3-Sigma Limit: 4.926550103208972e-04
+  Time Elapsed:  0.0716 s
+  [SUCCESS] Error IS in 3 SD. Generator is OK.
+
+     16 |   0.0717 | 6.1045x

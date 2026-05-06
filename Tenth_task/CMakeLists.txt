@@ -25,6 +25,8 @@ target_sources(minstd PRIVATE
 target_compile_options(minstd PRIVATE
     -fopenmp
     -O3
+    -save-temps
+    -march=native
 $<$<CONFIG:Debug>:
     -Wall
     -Wextra

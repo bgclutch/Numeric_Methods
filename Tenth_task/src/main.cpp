@@ -21,5 +21,7 @@ int main()
     std::cerr << "Generator Througput\n";
     benchlib::vGenThroughputTest(rng, 10000000);
 
+    tests::benchmarkSingleThread(file);
+    tests::measureScaling(file);
     return EXIT_SUCCESS;
 }
